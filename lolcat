@@ -1,2 +1,2 @@
 #! /bin/bash
-cat Source/Chorus/{Subscriber.js,Chorus.js,Chorus.Twitter.js,Chorus.Wordpress.js,Chorus.FriendFeed.js} > chorus.out.js
+cat Source/Chorus/{Subscriber.js,Chorus.js,Chorus.Extras.js,Chorus.Twitter.js,Chorus.Wordpress.js,Chorus.FriendFeed.js} > chorus.out.js
