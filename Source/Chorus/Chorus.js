@@ -166,6 +166,7 @@ var Chorus = $H();
         'initialize': function (options) {
             this.setOptions(options);
             $splat(options.feeds).each(this.subscribe.bind(this));
+            if(this.options.container) $(this.options.container).adopt(this);
         },
 
         'statuses': [],
