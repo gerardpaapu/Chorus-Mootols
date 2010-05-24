@@ -1,0 +1,4 @@
+#! /bin/env/sh
+
+cat functional-tools.js twitter.js extra.js > ../twitter.js
+touch ../twitter.config.js

@@ -1,0 +1,15 @@
+.tweet {
+    border: solid 1px #ccc;
+    padding: 10px;
+    margin: 20px;
+}
+
+.tweet img {
+    display: block;
+}
+
+.tweet .date {
+    color: #999;
+    display: block;
+    float: right;
+}
