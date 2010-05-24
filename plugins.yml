@@ -1,0 +1,16 @@
+---
+:globals:
+  :author: Gerard Paapu
+  :website: http://gerardpaapu.com
+  :contact: gerardpaapu@gmail.com
+
+:plugins:
+	:plugin_name: Twitter
+  	:build_path: twitter_mootools.js
+  	:scripts:
+    	- Twitter
+                - Twitter
+  		- Twitter.Extras 
+  	:tags:
+  	  - twitter
+  	:category: Interface

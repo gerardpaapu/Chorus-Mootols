@@ -1,0 +1,7 @@
+---
+:sample:
+  :build_path: <path/for/build/output.js>
+  :modules:
+    - Request.JSON
+    - DomReady
+    - Selectors

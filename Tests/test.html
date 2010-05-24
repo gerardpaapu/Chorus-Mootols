@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <script type="text/javascript" src="../twitter.js">/* */</script>
+        <style>
+            .tweet {
+                border: solid 1px #ccc;
+                margin: 1em; padding: 1em;
+                width: 30em;
+            }
+
+            .tweet img.avatar {
+                margin: 0 5px 5px 0;
+                height: 48px; width: 48px;
+            }
+            
+            .tweet .screenName {
+                float: left;
+                padding-right: 0.5em;
+            }
+
+            .tweet .tweetBody {
+                margin: 0 0 20px 58px;
+            }
+
+            .tweet img.avatar, 
+            .tweet .date,
+            .tweet .reply {
+                display: block;
+                float: left;
+                margin-right: 5px;
+            }
+
+            .tweet img.avatar, .tweet .date {
+                clear: left;
+            }
+
+            .tweet:after {
+                content: ".";
+                display: block;
+                clear: both;
+                visibility: hidden;
+                height: 0px;
+                overflow: hidden;
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+            window.addEvent('domready', function () {
+                var view = new Twitter.View({'feeds': ['@feliciaday', '#theguild'], 'count': 20});
+                $(document.body).grab(view);
+            });
+        </script>
+    </body>
+</html>

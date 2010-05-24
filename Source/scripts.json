@@ -1,0 +1,33 @@
+{
+    "Chorus": {
+        "Chorus": {
+            "deps": ["Request.JSONP", "Date", "Date.Extras", "Element.Event", "DomReady", "Class.Extras", "Subscriber"],
+            "desc": "Provides, timelines views and statuses"
+        },
+
+        "Chorus.Twitter": {
+            "deps": ["Chorus"],
+            "desc": "Pulls status updates from the Twitter API"
+        },
+
+        "Chorus.Extras": {
+            "deps": ["Chorus", "URI", "Swiff"],
+            "desc": "Adds extra templates and utilities to the Twitter object"
+        },
+
+        "Subscriber": {
+            "deps": ["Element.Event", "Class.Extras"],
+            "desc": "Implements the publisher/subscriber pattern"
+        },
+
+        "Chorus.Wordpress": {
+            "deps": ["Chorus", "Chorus.Twitter"],
+            "desc": "Uses the wordpress twitter api"
+        },
+        
+        "Chorus.FriendFeed": {
+            "deps": ["Chorus"],
+            "desc": "Uses the FriendFeed API"
+        }
+    }
+}

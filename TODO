@@ -1,0 +1,6 @@
+Add some info to the lib.js file upon building about what was included, what
+libs were used and what versions they were. Something like: 
+
+	Included : Class1, Class2
+	From     : ../mootools-core/Source, version 1.2.3
+						 ../mootools-more/Source, version 1.2.2.2
