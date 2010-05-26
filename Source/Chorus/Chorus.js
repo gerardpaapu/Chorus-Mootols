@@ -61,7 +61,7 @@ var Chorus = $H();
         },
 
         'renderBody': function (){
-            return new Element('p', {'class': 'statusBody', 'html': this.text});
+            return new Element("p", {'class': "statusBody", 'html': this.text});
         }
     });
 
@@ -78,9 +78,8 @@ var Chorus = $H();
     Chorus.extend({'Status': Status});
         
     var Timeline = new Class({
-        // Contains the Tweets recieved by a particular API Call.
-        // Periodically repeats that API call to update our 
-        // collection of Tweets with the server.
+        // Fetches statuses with a JSONP API call
+        // and publishes the results.
         'Extends': Publisher,
         'Implements': [Options, Events],
         'initialize': function (options) {
@@ -141,6 +140,7 @@ var Chorus = $H();
     };
 
     Chorus.extend({'Timeline': Timeline});
+
     Chorus.extend({'templates': $H()});
     Chorus.templates.extend({
         'basic': function (status) {
@@ -175,7 +175,8 @@ var Chorus = $H();
         'options': {
             'template': Chorus.templates.basic,
             'count': 10,
-            'feeds': []
+            'feeds': [],
+            'container': false
         },
 
         'update': function (statuses, source) {
@@ -187,15 +188,17 @@ var Chorus = $H();
 
         'distinct': function (){
             var out = [];
+            function eq(a){
+                return function (b){
+                    return Status.equal(a, b);
+                };
+            }
             
-            function contains(arr, val, eq){
-                return arr.some(function (v) { return eq(v, val); });
+            function addToSet(val){
+                if (!out.some(eq(val))) out.push(val);
             }
 
-            this.statuses.each(function(val){
-                if (!contains(out, val, Status.equal)) out.push(val);
-            });
-
+            this.statuses.each(addToSet);
             this.statuses = out;
         },
         

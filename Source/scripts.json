@@ -24,6 +24,11 @@
             "deps": ["Chorus", "Chorus.Twitter"],
             "desc": "Uses the wordpress twitter api"
         },
+
+        "Chorus.Facebook": {
+            "deps": ["Chorus"],
+            "desc": "Uses the facebook API"
+        },
         
         "Chorus.FriendFeed": {
             "deps": ["Chorus"],
