@@ -2,7 +2,7 @@
     // Adds support for Facebook Streams
     var FacebookTimeline = new Class({
         'Extends': Chorus.Timeline,
-            
+
         'initialize': function (username, options){
             this.username = username;
             this.queryUrl = this.queryUrl.substitute(this);
@@ -12,9 +12,17 @@
         'queryUrl': "https://graph.facebook.com/{username}/feed",
 
         'prePublish': function (data){
-           var statuses = $splat(data.data).map(FacebookStatus.from); 
+            var statuses = $splat(data.data).map(FacebookStatus.from)
+                                            .filter(this.isNew.bind(this)); 
 
-           if (statuses.length) this.publish(statuses);
+            if (statuses.length) {
+                this.latest = statuses[0].date.getTime();
+                this.publish(statuses);
+            }
+        },
+
+        'isNew': function (status){
+            return !this.latest || (status.createdAt.getTime() > this.latest);
         }
     });
 
@@ -26,7 +34,7 @@
         },
 
         'getStreamUrl': function (){
-            return this.getUrl();
+            return "http://facebook.com/profile.php?id={userid}".substitute(this);
         },
 
         'getUrl': function (){
