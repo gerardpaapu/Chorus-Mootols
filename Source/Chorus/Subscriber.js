@@ -26,7 +26,7 @@ var Subscriber = new Class({
     'unsubscribe': function (subscription){
         var index = this.subscriptions.indexOf(subscription);
         if (index !== -1) {
-             delete this.subscriptions[index];
+             this.subscriptions.splice(index, 1);
              subscription.cancel();
         }
     },
