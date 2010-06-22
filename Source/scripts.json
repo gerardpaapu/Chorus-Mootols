@@ -1,7 +1,7 @@
 {
     "Chorus": {
         "Chorus": {
-            "deps": ["Request.JSONP", "Date", "Date.Extras", "Element.Event", "DomReady", "Class.Extras", "Subscriber"],
+            "deps": ["Request.JSONP", "Date", "Date.Extras", "Element.Event", "DomReady", "Class.Extras", "Subscriber", "Class.Binds"],
             "desc": "Provides, timelines views and statuses"
         },
 
@@ -12,7 +12,7 @@
 
         "Chorus.Extras": {
             "deps": ["Chorus", "URI", "Swiff"],
-            "desc": "Adds extra templates and utilities to the Twitter object"
+            "desc": "Adds extra templates and utilities to the Chorus library"
         },
 
         "Subscriber": {

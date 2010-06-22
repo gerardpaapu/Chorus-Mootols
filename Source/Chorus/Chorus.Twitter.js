@@ -1,3 +1,17 @@
+/*
+---
+description: Adds twitter.com capabilites to Chorus 
+
+license: MIT-style
+
+authors:
+- Gerard Paapu
+
+requires:
+- Chorus
+
+provides: [Chorus.Twitter]
+*/
 (function (Chorus){
     var Tweet = new Class({
         'Extends': Chorus.Status,
@@ -72,17 +86,12 @@
         'Extends': Chorus.Timeline,
         'queryUrl': "http://api.twitter.com/1/statuses/public_timeline.json",
         'update': function (n) {
-            var latest = this.latest ? {'since_id': this.latest } : {};
+            var latest = this.latest ? {'since_id': this.latest.id } : {};
             this.request.send({'data': $merge(this.sendData, latest) });
         },
 
-        'prePublish': function (data) {
-            var newTweets = $splat(data).map(Tweet.from);
-            
-            if (newTweets.length) { 
-                this.latest = $H(newTweets[0]).get('id');
-                this.publish(newTweets);
-            }
+        'statusesFromData': function (data){
+            return data.map(Tweet.from);
         }
     });
 
@@ -152,13 +161,13 @@
             }
         },
         {
-            'pattern': /^@\+([a-z-_]+)/,
+            'pattern': /^@\+([a-z-_]+)/i,
             'fun': function (_, name){
                 return new TwitterAboutTimeline(name);
             }
         },
         {
-            'pattern': /^@([a-z-_]+)/,
+            'pattern': /^@([a-z-_]+)/i,
             'fun': function (_, name){
                 return new TwitterUserTimeline(name);
             }

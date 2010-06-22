@@ -1,3 +1,17 @@
+/*
+---
+description: Adds wordpress capabilites to Chorus 
+
+license: MIT-style
+
+authors:
+- Gerard Paapu
+
+requires:
+- Chorus.Twitter
+
+provides: [Chorus.Wordpress]
+*/
 (function (Chorus){
     var WordpressTimeline = new Class({
         'Extends': Chorus.TwitterUserTimeline,

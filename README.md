@@ -1,61 +1,50 @@
-Twitter
+Chorus
 ======
 
-Basic Usage
------------
+Basic Concepts
+-------------
 
-Twitter.View is a class that monitors any number of twitter timelines.
-The option 'feeds' can take a string or an array of strings.
-It understands a shorthand for users "@user", lists "@user/list", and everything else becomes a search.
+Chorus provides three base classes Status, Timeline, and View.
 
-This example will follow the user "sharkbrain", a list he owns called "my-friends" and search for any posts directed to him.
+Statuses represent a single status message on a service.
 
-    var sharkView = new Twitter.View({'feeds': ['@sharkbrain', '@sharkbrain/my-friends', 'to:sharkbrain']});
+Timelines publish Statuses.
 
-`View`s, `Timeline`s and `Tweet`s all implement `toElement`, and therefore can be `grab`bed, `adopt`ed and `$`ed.
+Views subscribe to Timelines and display any Statuses that it receives as HTML. 
 
-    $('TwitterContainer').empty().grab(sharkView);
+A Chorus module may provide subclasses of these base classes for use with a particular service.
 
+Chorus.Twitter
+-------------
 
-Twitter.Timeline
-----------------
+Chorus.Twitter provides TwitterUserTimeline (a Timeline subclass) and Tweet (a subclass of Status).
 
-Timeline is the base-class and really shouldn't be instantiated directly.
+The following creates a View and a Timeline, and the View subscribes to the Timeline.
 
-There are three basic types of usable timelines. UserTimeline, ListTimeline and SearchTimeline.
+Then the Element TwitterDisplay adopts the view.
 
-UserTimeline takes the screenname of a user and gets the statuses
-you would see at http://twitter.com/screenname
+    var view = new Chorus.View(); 
+    var sharktwitter = new Chorus.TwitterUserTimeline("sharkbrain") // follows the user sharkbrain on twitter
+    view.subscribe(sharkbrainTwitter); 
+    
+    $("TwitterDisplay").adopt(view);
 
-    new Twitter.UserTimeline("sharkbrain");
+this could also be initialized with the 'feeds' and 'container' options for the same effect:
 
-ListTimeline takes the screenname of a user and a list name, and gets
-the statuses that you would see at http://twitter.com/screenname/listname
+    new Chorus.View({
+        'feeds': new Chorus.TwitterUserTimeline("sharkbrain"),
+        'container': "TwitterDisplay"
+    });
 
-    new Twitter.ListTimeline("sharkbrain", "my-friends");
+The Chorus.Twitter module installs the shorthand "@username" for TwitterUserTimelines so the same thing could also be achieved with the shorthand.
 
-SearchTimeline takes a search string as described here http://search.twitter.com/operators 
+    new Chorus.View({'feeds': "@sharkbrain", 'container': "TwitterDisplay"});
 
-    new Twitter.SearchTimeline("#sharks");
+Chorus.Twitter also provides the following Timeline subclasses with the associated shorthands:
 
+    TwitterListTimeline(username, listname, options) "@username/listname"
+    TwitterAboutTimeline(username, options) "@+username"
+    TwitterSearchTimeline(searchstring, options) this is the default if no other patterns match. 
 
-
-Twitter.View
-------------
-
-A View monitors a Timeline and updates when they update. 
-
-    var sharkbrain = new Twitter.UserTimeline("sharkbrain");
-    var friends = new Twitter.ListTimeline("sharkbrain", "my-friends");
-
-    new Twitter.View({'feeds': [sharkbrain, friends, sharkSearch]});
-
-If you pass it strings instead of Timelines, it understands a shorthand for users "@user" and lists "@user/list-name", and everything else becomes a search timeline.
-
-    var view = new Twitter.View({'feeds': ["@sharkbrain", "@sharkbrain/my-friends", "#sharks"]});
-
-You can also watch a timeline by using the `subscribe` method.
-
-    var view = new Twitter.View();
-    view.subscribe("@sharkbrain", "to:sharkbrain");    
+TwitterAboutTimeline follows a user and all tweets addressed to that user.
 

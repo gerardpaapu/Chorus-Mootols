@@ -1,3 +1,18 @@
+/*
+---
+description: Implements the publisher/subscriber pattern 
+
+license: MIT-style
+
+authors:
+- Gerard Paapu
+
+requires:
+- core: [Element.Event, Class.Extras]
+
+provides: [Subscriber]
+*/
+
 var Subscription = new Class({
     'initialize': function (subscriber, broadcaster, type){
         this.subscriber = subscriber;

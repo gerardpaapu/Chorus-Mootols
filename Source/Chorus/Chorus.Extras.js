@@ -1,3 +1,20 @@
+/*
+---
+description: Expands various media links to images/videos to embedded objects and thumbnails etc. 
+
+license: MIT-style
+
+authors:
+- Gerard Paapu
+
+requires:
+- Chorus
+- more/1.2.4: [URI]
+- core/1.2.4: [Swiff]
+
+provides: [Chorus.Extras]
+*/
+
 (function (Chorus){
     Chorus.extend({
         'imageSites': $H({

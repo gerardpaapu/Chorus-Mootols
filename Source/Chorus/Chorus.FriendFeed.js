@@ -1,3 +1,18 @@
+/*
+---
+description: Adds twitter.com capabilites to Chorus 
+
+license: MIT-style
+
+authors:
+- Gerard Paapu
+
+requires:
+- Chorus
+
+provides: [Chorus.FriendFeed]
+*/
+
 (function (Chorus){
     var FriendfeedStatus = new Class({
         'Extends': Chorus.Status,
@@ -39,7 +54,6 @@
                 'maxlikes': 0
             };
             this.queryUrl = this.queryUrl.substitute(this);
-            this.isNew = this.isNew.bind(this);
             this.parent(options);
         },
 
@@ -48,19 +62,8 @@
             this.request.send({'data': this.sendData});
         },
 
-        'prePublish': function (data){
-            if (data.entries.length) {
-                var statuses = data.entries.map(FriendfeedStatus.from).filter(this.isNew);
-
-                if (statuses.length) {
-                    this.latest = new Date(statuses[0]['date']).getTime();
-                    this.publish(statuses);
-                }
-            }
-        },
-
-        'isNew': function (status){
-            return !this.latest || (status.createdAt.getTime() > this.latest);
+        'statusesFromData': function (data){
+            return data.entries.map(FriendfeedStatus.from);
         }
     });
 

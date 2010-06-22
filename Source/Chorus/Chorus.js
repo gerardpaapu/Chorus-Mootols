@@ -1,3 +1,20 @@
+/*
+---
+description: 
+
+license: MIT-style
+
+authors:
+- Gerard Paapu
+
+requires:
+- Subscriber
+- core/1.2.4: '*'
+- more/1.2.4: Request.JSONP, Date.Extras, Class.Binds
+
+provides: [Chorus]
+*/
+
 var Chorus = $H();
 
 (function (Chorus){
@@ -82,12 +99,13 @@ var Chorus = $H();
         // and publishes the results.
         'Extends': Publisher,
         'Implements': [Options, Events],
+        'Binds': ["isNew"],
         'initialize': function (options) {
             this.setOptions(options);
             this.latest = null;
             this.request = new Request.JSONP({
-                url: this.queryUrl,
-                onComplete: this.prePublish.bind(this)
+                'url': this.queryUrl,
+                'onComplete': this.prePublish.bind(this)
             });
 
             if (this.options.updateOnStart) this.update();
@@ -118,8 +136,22 @@ var Chorus = $H();
             this.request.send();
         },
 
-        'prePublish': function (statuses) {
-            if (statuses.length) this.publish(statuses);
+        'statusesFromData': function (data) {
+           return []; 
+        },
+
+        'prePublish': function (data){
+            var statuses = this.statusesFromData(data).filter(this.isNew); 
+
+            if (statuses.length) {
+                statuses.sort(Status.byDate);
+                this.latest = statuses[0];
+                this.publish(statuses);
+            }
+        },
+
+        'isNew': function (status){
+            return !this.latest || (status.date.getTime() > this.latest.date.getTime());
         }
     });
 
@@ -200,6 +232,7 @@ var Chorus = $H();
 
             this.statuses.each(addToSet);
             this.statuses = out;
+            
         },
         
         'subscribe': function (source){
@@ -217,9 +250,9 @@ var Chorus = $H();
             var render = view.renderStatus.bind(view),
                 children = view.statuses.slice(0, view.options.count).map(render);
 
-            this.getChildren().map(function (child) {
+            this.getChildren().each(function (child){
                 child.dispose();
-            });                        
+            });
 
             this.adopt(children);
         },
@@ -237,7 +270,7 @@ var Chorus = $H();
 
     Chorus.extend({
         'View': View,
-        'view': function (){
+        'view': function (){ // just a convenience
             return new View({'feeds': $A(arguments)});
         }
     });
