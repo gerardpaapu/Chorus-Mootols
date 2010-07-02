@@ -1,0 +1,13 @@
+name: "Chorus"
+
+web: "[gerardpaapu.com](http://gerardpaapu.com)"
+
+license: "MIT Style"
+
+sources:
+    - "Source/Chorus.js"
+    - "Source/Chorus.Twitter.js"
+    - "Source/Chorus.Facebook.js"
+    - "Source/Chorus.FriendFeed.js"
+    - "Source/Chorus.Wordpress.js"
+    - "Source/Chorus.Extras.js"

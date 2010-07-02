@@ -2,42 +2,47 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title></title>
-        <script type="text/javascript" src="../twitter.js">/* */</script>
+        <title>Chorus Tests</title>
+        <script type="text/javascript" src="../Source/Chorus.js">/* */</script>
+        <script type="text/javascript" src="../Source/Chorus.Twitter.js">/* */</script>
+        <script type="text/javascript" src="../Source/Chorus.Facebook.js">/* */</script>
+        <script type="text/javascript" src="../Source/Chorus.FriendFeed.js">/* */</script>
+        <script type="text/javascript" src="../Source/Chorus.Wordpress.js">/* */</script>
+        <script type="text/javascript" src="../Source/Chorus.Extras.js">/* */</script>
         <style>
-            .tweet {
+            .status {
                 border: solid 1px #ccc;
                 margin: 1em; padding: 1em;
                 width: 30em;
             }
 
-            .tweet img.avatar {
+            .status img.avatar {
                 margin: 0 5px 5px 0;
                 height: 48px; width: 48px;
             }
             
-            .tweet .screenName {
+            .status .username {
                 float: left;
                 padding-right: 0.5em;
             }
 
-            .tweet .tweetBody {
+            .status .statusBody {
                 margin: 0 0 20px 58px;
             }
 
-            .tweet img.avatar, 
-            .tweet .date,
-            .tweet .reply {
+            .status img.avatar, 
+            .status .date,
+            .status .reply {
                 display: block;
                 float: left;
                 margin-right: 5px;
             }
 
-            .tweet img.avatar, .tweet .date {
+            .status img.avatar, .status .date {
                 clear: left;
             }
 
-            .tweet:after {
+            .status:after {
                 content: ".";
                 display: block;
                 clear: both;
@@ -50,7 +55,7 @@
     <body>
         <script>
             window.addEvent('domready', function () {
-                var view = new Twitter.View({'feeds': ['@feliciaday', '#theguild'], 'count': 20});
+                var view = new Chorus.View({'feeds': ['@feliciaday', '#theguild'], 'count': 20});
                 $(document.body).grab(view);
             });
         </script>

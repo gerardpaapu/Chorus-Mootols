@@ -5,12 +5,18 @@
   :contact: gerardpaapu@gmail.com
 
 :plugins:
-	:plugin_name: Twitter
-  	:build_path: twitter_mootools.js
+	:plugin_name: Chorus
+  	:build_path: chorus.js
   	:scripts:
-    	- Twitter
-                - Twitter
-  		- Twitter.Extras 
+            - Chorus
+            - Chorus.Twitter
+            - Chorus.Facebook
+            - Chorus.FriendFeed
+            - Chorus.Wordpress
+            - Chorus.Extras 
   	:tags:
   	  - twitter
+          - facebook
+          - status
+          - friendfeed
   	:category: Interface
