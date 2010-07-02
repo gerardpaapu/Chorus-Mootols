@@ -2,7 +2,7 @@
 ---
 description: Implements the publisher/subscriber pattern 
 
-license: MIT-style
+license: BSD-style
 
 authors:
 - Gerard Paapu

@@ -2,7 +2,7 @@
 ---
 description: Adds Facebook capabilites to Chorus 
 
-license: MIT-style
+license: BSD-style
 
 authors:
 - Gerard Paapu

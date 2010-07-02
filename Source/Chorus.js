@@ -2,7 +2,7 @@
 ---
 description: 
 
-license: MIT-style
+license: BSD-style
 
 authors:
 - Gerard Paapu

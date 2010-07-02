@@ -2,7 +2,7 @@
 ---
 description: Expands various media links to images/videos to embedded objects and thumbnails etc. 
 
-license: MIT-style
+license: BSD-style
 
 authors:
 - Gerard Paapu
