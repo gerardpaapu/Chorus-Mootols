@@ -2,7 +2,7 @@
 ---
 description: Adds Facebook capabilites to Chorus 
 
-license: BSD-style
+license: MIT-style
 
 authors:
 - Gerard Paapu
@@ -31,6 +31,24 @@ provides: [Chorus.Facebook]
 
         'getAvatar': function (){
             return "http://graph.facebook.com/{userid}/picture".substitute(this);
+        },
+
+        'renderBody': function (){
+            var element = this.parent(),
+                url = "http://graph.facebook.com/{id}/comments".substitute(this),
+                status = this;
+
+            new Request.JSONP({
+                'url': url,
+                'onComplete': function (o){
+                    if (o.data.length) {
+                        var comments = o.data.map(FacebookStatus.renderComment);
+                        $$(comments).inject(element, 'after');
+                    }
+                }
+            }).send(); 
+
+            return element;
         }
     });
 
@@ -41,6 +59,17 @@ provides: [Chorus.Facebook]
         var text = (data.message ? data.message + ' ':'') + (link ? '<a href="'+link+'">'+data.name+'</a>': '');
         return new FacebookStatus(id, data.from.name, null, data.created_time, text, data.from.id);
     };
+
+    FacebookStatus.renderComment = function(data){
+        var url = FacebookStatus.prototype.getStreamUrl.apply({'userid': data.from.id}),
+            link = new Element('a', {'text': data.from.name, 'href': url});
+
+        return new Element('p', {
+            'class': "comment",
+            'text': ': ' + data.message
+        }).grab(link, 'top');
+
+    }
 
     var FacebookTimeline = new Class({
         'Extends': Chorus.Timeline,
