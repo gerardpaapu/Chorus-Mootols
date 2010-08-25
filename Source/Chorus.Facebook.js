@@ -31,8 +31,8 @@ provides: [Chorus.Facebook]
 
         'getAvatar': function (){
             return "http://graph.facebook.com/{userid}/picture".substitute(this);
-        },
-
+        }
+        /*,
         'renderBody': function (){
             var element = this.parent(),
                 url = "http://graph.facebook.com/{id}/comments".substitute(this),
@@ -50,6 +50,7 @@ provides: [Chorus.Facebook]
 
             return element;
         }
+        */ 
     });
 
     FacebookStatus.from = function (data){
