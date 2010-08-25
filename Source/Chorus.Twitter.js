@@ -49,8 +49,9 @@ provides: [Chorus.Twitter]
          // slightly different format
         'from': function (h) {
             if (h instanceof Tweet) return h;
+            h = h['retweeted_status'] || h;
             h = $H(h);
-
+            
             var reply = h.get('in_reply_to_status_id') ? {
                 'username': h.get('in_reply_to_screen_name'),
                 'userID': h.get('in_reply_to_user_id'),
@@ -98,13 +99,18 @@ provides: [Chorus.Twitter]
     var TwitterUserTimeline = new Class({
         'Extends': TwitterTimeline, 
         'initialize': function (username, options) {
+            this.setOptions(options);
             this.username = username.toLowerCase();
-            this.sendData = {'screen_name': this.username, 'count': this.options.count};
+            this.sendData = {
+                'screen_name': this.username, 
+                'count': this.options.count,
+                'include_rts': this.options.includeRetweets    
+            };
             this.parent(options);
         },
-
+        'options': { 'includeRetweets': true },
         'userData': null,
-        'queryUrl': "http://twitter.com/statuses/user_timeline.json"
+        'queryUrl': "http://api.twitter.com/1/statuses/user_timeline.json"
     });
 
     var TwitterSearchTimeline = new Class({
