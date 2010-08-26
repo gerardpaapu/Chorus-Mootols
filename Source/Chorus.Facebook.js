@@ -31,14 +31,14 @@ provides: [Chorus.Facebook]
 
         'getAvatar': function (){
             return "http://graph.facebook.com/{userid}/picture".substitute(this);
-        }
-        /*,
-        'render': function (){
-            var element = this.parent(),
+        },
+
+        'toElement': function (options){
+            var element = this.parent(options),
                 url = "http://graph.facebook.com/{id}/comments".substitute(this),
                 status = this;
 
-            new Request.JSONP({
+            if (options.comments) new Request.JSONP({
                 'url': url,
                 'onComplete': function (o){
                     if (o.data.length) {
@@ -50,7 +50,6 @@ provides: [Chorus.Facebook]
 
             return element;
         }
-        */ 
     });
 
     FacebookStatus.from = function (data){

@@ -32,9 +32,26 @@ var Chorus = $H();
             return "<Status:{username} #{id}>".substitute(this);
         },
 
-        'toElement': function () {
-            if (!(this.element)) this.render();
-            return this.element;
+        'toElement': function (options){
+            options = options || {};
+            var body = this.renderBody();
+                
+            var element = new Element('div', {'class': "status"}).adopt(
+                this.renderAvatar(),
+                this.renderScreenName(),
+                body,
+                this.renderTimestamp()
+            );
+            
+            if (options.extras) {
+                var extras = $splat(options.extras).map(function (fn){
+                    return fn(element, body, this);
+                }, this);
+                
+                new Element('div', {'class': "extras"}).adopt(extras).inject(element, 'bottom');
+            }
+
+            return element;
         },
 
         'getAvatar': function (){
@@ -79,15 +96,6 @@ var Chorus = $H();
 
         'renderBody': function (){
             return new Element("p", {'class': "statusBody", 'html': this.text});
-        },
-
-        'render': function (){
-            return new Element('div', {'class': "status"}).adopt(
-                this.renderAvatar(),
-                this.renderScreenName(),
-                this.renderBody(),
-                this.renderTimestamp()
-            );
         }
     });
 
@@ -198,7 +206,8 @@ var Chorus = $H();
         'options': {
             'count': 10,
             'feeds': [],
-            'container': false
+            'container': false,
+            'renderOptions': {}
         },
 
         'update': function (statuses, source) {
@@ -249,9 +258,10 @@ var Chorus = $H();
 
         'renderStatus': function (status) {
             var htmlCache = this.htmlCache,
+                options = this.options.renderOptions,
                 key = status.toKey();
 
-            if (!htmlCache.has(key)) htmlCache.set(key, status.render());
+            if (!htmlCache.has(key)) htmlCache.set(key, status.toElement(options));
 
             return htmlCache.get(key);
         }

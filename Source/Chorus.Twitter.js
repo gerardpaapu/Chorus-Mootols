@@ -39,8 +39,8 @@ provides: [Chorus.Twitter]
             });
         },
 
-        'render': function (){
-            var element = this.parent();
+        'toElement': function (options){
+            var element = this.parent(options);
             if (this.reply) element.adopt(this.renderReply());
             return element;
         }
