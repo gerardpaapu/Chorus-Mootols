@@ -33,7 +33,7 @@ var Chorus = $H();
         },
 
         'toElement': function () {
-            if (!(this.element)) this.element = Chorus.templates.basic(this);
+            if (!(this.element)) this.render();
             return this.element;
         },
 
@@ -79,6 +79,15 @@ var Chorus = $H();
 
         'renderBody': function (){
             return new Element("p", {'class': "statusBody", 'html': this.text});
+        },
+
+        'render': function (){
+            return new Element('div', {'class': "status"}).adopt(
+                this.renderAvatar(),
+                this.renderScreenName(),
+                this.renderBody(),
+                this.renderTimestamp()
+            );
         }
     });
 
@@ -173,24 +182,6 @@ var Chorus = $H();
 
     Chorus.extend({'Timeline': Timeline});
 
-    Chorus.extend({'templates': $H()});
-    Chorus.templates.extend({
-        'basic': function (status) {
-            var element = new Element('div', {'class': "status"});
-
-            element.adopt(
-                status.renderAvatar(),
-                status.renderScreenName(),
-                status.renderBody(),
-                status.renderTimestamp()
-            );
-
-            if (status.reply) element.adopt(status.renderReply());
-
-            return element;
-        }
-    });
-
     var View = new Class({
         'Extends': Subscriber,
         'Implements': [Options, Events],
@@ -205,7 +196,6 @@ var Chorus = $H();
         'htmlCache': $H(),
         
         'options': {
-            'template': Chorus.templates.basic,
             'count': 10,
             'feeds': [],
             'container': false
@@ -258,11 +248,10 @@ var Chorus = $H();
         },
 
         'renderStatus': function (status) {
-            var template = this.options.template,
-                htmlCache = this.htmlCache,
+            var htmlCache = this.htmlCache,
                 key = status.toKey();
 
-            if (!htmlCache.has(key)) htmlCache.set(key, template(status));
+            if (!htmlCache.has(key)) htmlCache.set(key, status.render());
 
             return htmlCache.get(key);
         }

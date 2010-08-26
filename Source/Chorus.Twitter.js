@@ -31,12 +31,18 @@ provides: [Chorus.Twitter]
             return "http://twitter.com/{username}".substitute(this);
         },
 
-        'renderReply': function () {
+        'renderReply': function (){
             return new Element('a', {
                 'class': 'reply',
                 'href': "http://twitter.com/{username}/statuses/{statusID}".substitute(this.reply),
                 'text': "in reply to @{username}".substitute(this.reply)
             });
+        },
+
+        'render': function (){
+            var element = this.parent();
+            if (this.reply) element.adopt(this.renderReply());
+            return element;
         }
     });
 

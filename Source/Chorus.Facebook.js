@@ -33,7 +33,7 @@ provides: [Chorus.Facebook]
             return "http://graph.facebook.com/{userid}/picture".substitute(this);
         }
         /*,
-        'renderBody': function (){
+        'render': function (){
             var element = this.parent(),
                 url = "http://graph.facebook.com/{id}/comments".substitute(this),
                 status = this;
