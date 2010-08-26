@@ -1,7 +1,11 @@
+var view = null;
 window.addEvent('domready', function() {	
-    var view = new Chorus.View({
-        'feeds': ["@barackobama", "FB:john.mccain", "FF:paul"], 
-        'count': 30
+    view = new Chorus.View({
+        'feeds': new Chorus.TwitterSearchTimeline('yfrog'), 
+        'count': 30,
+        'renderOptions': {
+            'extras': Chorus.Embedly.renderExtras(/^http:\/\/yfrog/)
+        }
     });
 
     $(document.body).adopt(view);
