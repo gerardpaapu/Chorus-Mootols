@@ -1,6 +1,25 @@
 Chorus
 ======
 
+The easiest way to start using `Chorus` is the function `Chorus.view`.
+
+`Chorus.view` takes any number of `Timelines` or timeline shorthands and returns a `Chorus.View`.
+
+A `Chorus.View` implements `toElement` so it can be grabbed, adopted, etc.
+
+This example demonstrates alot of the shorthands for various types of `Timeline`.
+
+    $('ChorusContainer').adopt(
+        Chorus.view(
+            "@sharkbrain", // Follow the twitter user sharkbrain
+            "@sharkbrain/friends-i-dont-like", // follow the list  'friends-i-dont-like'
+            "@+sharkbrain", // Follow the conversation with sharkbrain
+            "#sharks", // Follow the hashtag sharks
+            "FB:BarackObama", // Follow Barack Obama on Facebook
+            "FF:paul", // Follow Paul on Friendfeed
+            "BZ:anybody" // Is anyone on Buzz?
+        ));
+
 Basic Concepts
 -------------
 
