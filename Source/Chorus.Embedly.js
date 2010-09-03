@@ -1,9 +1,8 @@
 (function (){
 var Embedly = {
     'make': function (link){
-        var url = link instanceof Element ? link.get('href') : link;
+        var url = link.get('href');
         var placeholder = new Element('div', {'class': "embed"}); 
-
         new Request.JSONP({
             'url': "http://api.embed.ly/v1/api/oembed",
             'data': { 'url': url },
@@ -27,6 +26,7 @@ var Embedly = {
 
     'photo': function (json){
         return new Element("img", {
+            'class': "embed",
             'src': json.url,
             'width': json.width,
             'height': json.height
@@ -34,7 +34,7 @@ var Embedly = {
     },
 
     'thumbnail': function (json){
-        var link = new Element("a", {href: json.url});
+        var link = new Element("a", {'href': json.url, 'class': "embed"});
         var img = new Element("img", {
             'src': json.thumbnail_url,
             'width': json.thumbnail_width,
@@ -45,18 +45,29 @@ var Embedly = {
     },
 
     'html': function (json){
-        var el = new Element("div", {'html': json.html}); 
+        var el = new Element("div", {'html': json.html, 'class': "embed"}); 
         el.setStyles({'width': json.width, 'height': json.height });
         return el;
     },
 
-    'renderExtras': function (pattern){
-        return function (_, body){
-            return body.getElements('a').filter(test).map(Embedly.make);
-        }
+    'renderExtras': function (name){
+        var patterns = $A(arguments).map(function (name){
+            var service = Embedly.services[name];
+            return (service || []).map(function (str){
+                return new RegExp(str, 'i');
+            });
+        }).flatten();
 
         function test(link){
-            return link.get('href').match(pattern);
+            var url = link.get('href');
+            return patterns.some(function (pattern){
+                return url.match(pattern);
+            });
+        }
+
+        return function (_, body){
+            var links = body.getElements('a').filter(test);
+            return links.map(Embedly.make);
         }
     }
 }
