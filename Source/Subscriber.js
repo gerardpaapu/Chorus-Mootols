@@ -14,15 +14,15 @@ provides: [Subscriber]
 */
 
 var Subscription = new Class({
-    'initialize': function (subscriber, broadcaster, type){
+    'initialize': function (subscriber, publisher, type){
         this.subscriber = subscriber;
-        this.broadcaster = broadcaster;
+        this.publisher = publisher;
         this.type = type || 'update';
         this.handler = function (data){
-            return subscriber.update(data, broadcaster);
+            return subscriber.update(data, publisher);
         };
 
-        this.broadcaster.addEvent(this.type, this.handler);
+        this.publisher.addEvent(this.type, this.handler);
     },
 
     'cancel': function (){
@@ -33,8 +33,8 @@ var Subscription = new Class({
 var Subscriber = new Class({
     'subscriptions': [],
 
-    'subscribe': function (broadcaster){
-        var subscription = new Subscription(this, broadcaster);
+    'subscribe': function (publisher){
+        var subscription = new Subscription(this, publisher);
         this.subscriptions.extend([subscription]);
     },
 
