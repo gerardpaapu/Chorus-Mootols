@@ -125,7 +125,7 @@ provides: [Chorus.Twitter]
         'initialize': function (searchTerm, options) {
             this.setOptions(options);
             this.searchTerm = searchTerm;
-            this.sendData = {'q': searchTerm, 'rpp': this.options.count};
+            this.sendData = {'q': searchTerm, 'rpp': this.options.count, 'result_type': "recent"};
             this.parent(options);
         },
 
