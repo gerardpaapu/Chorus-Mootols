@@ -1,7 +1,7 @@
+.view { }
 .status {
     border: solid 1px #ccc;
     margin: 1em; padding: 1em;
-    width: 30em;
 }
 
 .status img.avatar {
@@ -26,9 +26,23 @@
     margin-right: 5px;
 }
 
-.status img.avatar, .status .date, .status .extras {
+.status img.avatar,
+.status .date,
+.status .extras {
     clear: left;
 }
+
+.status .extras {
+    padding: 5px 0;
+}
+
+.status .embed,
+.status a.embed > img {
+    display: block;
+    float: left;
+    margin: 0 5px 5px 0;
+}
+
 
 .status:after {
     content: ".";

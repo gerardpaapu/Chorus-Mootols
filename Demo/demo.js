@@ -1,10 +1,9 @@
-var view = null;
 window.addEvent('domready', function() {	
-    view = new Chorus.View({
-        'feeds': new Chorus.TwitterSearchTimeline('yfrog'), 
+    var view = new Chorus.View({
+        'feeds': new Chorus.TwitterSearchTimeline("xkcd.com"), 
         'count': 30,
         'renderOptions': {
-            'extras': Chorus.Embedly.renderExtras(/^http:\/\/yfrog/)
+            'extras': Chorus.Embedly.renderExtras("xkcd", "youtube")
         }
     });
 
