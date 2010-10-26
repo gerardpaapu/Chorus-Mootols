@@ -67,7 +67,7 @@ provides: [Chorus.Twitter]
             var searchAPI = !h.has('user'); // is this data from the Search API?
 
             return new Tweet(
-                h.get('id'), 
+                h.get('id_str'), 
                 searchAPI? h.get('from_user') : h.get('user')['screen_name'],
                 searchAPI? h.get('profile_image_url') : h.get('user')['profile_image_url'],
                 h.get('created_at'), h.get('text'), reply
