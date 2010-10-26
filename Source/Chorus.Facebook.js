@@ -68,8 +68,7 @@ provides: [Chorus.Facebook]
             'class': "comment",
             'text': ': ' + data.message
         }).grab(link, 'top');
-
-    }
+    };
 
     var FacebookTimeline = new Class({
         'Extends': Chorus.Timeline,
