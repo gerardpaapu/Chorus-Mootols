@@ -11,8 +11,8 @@
 // where you would like the media to load. When the media does load, it will 
 // replace the placeholder.
 //
-// (Placeholders have the class `.embedly_placeholder`, it's best to style them
-// to be inconspicuous.)
+// Placeholders have the class `embedly_placeholder`, it's best to style them
+// to be inconspicuous.
 //
 //  A simple example:
 //
@@ -53,8 +53,11 @@ var Embedly = {
             url: "http://api.embed.ly/1/services/javascript",
             onComplete: function (json) {
                 json.each(function (item, index){
-                    embedly.services[item.name] = item.regex;
-                    [].push.apply(embedly.patterns, item);
+                    var patterns = (item.regex).map(function (p) {
+                        return new RegExp(p, "i");
+                    });
+                    embedly.services[item.name] = patterns;
+                    [].push.apply(embedly.patterns, patterns);
                 });      
 
                 embedly.onServicesLoaded();
@@ -70,12 +73,12 @@ var Embedly = {
     processQueue: function () {
         this.queue.each(function (item) {
             var url = item.url,
-                element = item.element;
+                placeholder = item.element;
 
             if (this.supported(url)) {
                 this.__make__(url, placeholder);    
             }
-        });
+        }, this);
     },
 
     // The main interface for users, always returns a placeholder element
@@ -168,3 +171,6 @@ var Embedly = {
         return el;
     }
 };
+
+var link = document.getElement(".media");
+Embedly.make(link).replaces(link);
