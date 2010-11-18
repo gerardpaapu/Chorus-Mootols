@@ -35,7 +35,7 @@ var Subscriber = new Class({
 
     'subscribe': function (publisher){
         var subscription = new Subscription(this, publisher);
-        this.subscriptions.extend([subscription]);
+        this.subscriptions.push(subscription);
     },
 
     'unsubscribe': function (subscription){

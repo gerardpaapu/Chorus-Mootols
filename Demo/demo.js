@@ -1,10 +1,7 @@
 window.addEvent('domready', function() {	
     var view = new Chorus.View({
-        'feeds': new Chorus.TwitterSearchTimeline("xkcd.com"), 
-        'count': 30,
-        'renderOptions': {
-            'extras': Chorus.Embedly.renderExtras("xkcd", "youtube")
-        }
+        'feeds': ["@sharkbrain", "FF:paul", "FB:BarackObama"], 
+        'count': 30
     });
 
     $(document.body).adopt(view);

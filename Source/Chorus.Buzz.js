@@ -25,11 +25,11 @@ provides: [Chorus.Buzz]
         
         'update': function (){
             var feedUrl = escape("http://buzz.googleapis.com/feeds/{userid}/public/posted".substitute(this));
-            var data = "q=" + feedUrl + "&" + $H({
+            var data = "q=" + feedUrl + "&" + Object.toQueryString({
                 'num': this.options.count,
                 'output': "json",
                 'v': "1.0"
-            }).toQueryString();
+            });
 
             var url = this.queryUrl + "?" + data;
             this.request.send({'url': url});
@@ -74,7 +74,7 @@ provides: [Chorus.Buzz]
         }
     }];
 
-    Chorus.Timeline.shorthands = shorthands.extend(Chorus.Timeline.shorthands);
+    Chorus.Timeline.shorthands = shorthands.concat(Chorus.Timeline.shorthands);
 
     Chorus.buzzAvatar = (function (){
         var cache = {};
@@ -106,9 +106,11 @@ provides: [Chorus.Buzz]
                 callbackKey: "jscb",
                 onComplete: function (json){
                     var user = json["http://www.google.com/profiles/"+name],
-                    src = user && user.attributes.photo;
+                        src = user && user.attributes.photo;
 
-                    if (src) callback(name, src);
+                    if (src) {
+                        callback(name, src);
+                    }
                 }
             }).send();
         }

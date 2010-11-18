@@ -53,11 +53,14 @@ provides: [Chorus.Facebook]
     });
 
     FacebookStatus.from = function (data){
-        if (data instanceof Chorus.Status) return data;
-        var match = /_(.*)$/.exec(data.id), id = match && match[1];
-        var link = data.source || data.link;
-        var text = (data.message ? data.message + ' ':'') + (link ? '<a href="'+link+'">'+data.name+'</a>': '');
-        return new FacebookStatus(id, data.from.name, null, data.created_time, text, data.from.id);
+        if (data instanceof Chorus.Status) {
+            return data;
+        } else {
+            var match = /_(.*)$/.exec(data.id), id = match && match[1];
+            var link = data.source || data.link;
+            var text = (data.message ? data.message + ' ':'') + (link ? '<a href="'+link+'">'+data.name+'</a>': '');
+            return new FacebookStatus(id, data.from.name, null, data.created_time, text, data.from.id);
+        }
     };
 
     FacebookStatus.renderComment = function(data){
@@ -92,9 +95,7 @@ provides: [Chorus.Facebook]
         }
     }];
 
-    Chorus.Timeline.shorthands = shorthands.extend(Chorus.Timeline.shorthands);
-    Chorus.extend({
-        'FacebookTimeline': FacebookTimeline,
-        'FacebookStatus': FacebookStatus
-    });
+    Chorus.Timeline.shorthands = shorthands.concat(Chorus.Timeline.shorthands);
+    Chorus.FacebookTimeline = FacebookTimeline;
+    Chorus.FacebookStatus = FacebookStatus;
 }(Chorus));

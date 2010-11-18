@@ -17,7 +17,7 @@ provides: [Chorus.Wordpress]
         'Extends': Chorus.TwitterUserTimeline,
         'queryUrl': "http://twitter-api.wordpress.com/statuses/user_timeline.json",
         'prePublish': function (data){
-            var newTweets = $splat(data).map(WordpressStatus.from);
+            var newTweets = Array.splat(data).map(WordpressStatus.from);
             this.parent(newTweets);
         }
     });
@@ -34,7 +34,9 @@ provides: [Chorus.Wordpress]
     });
 
     WordpressStatus.from = function (h){
-        if (h instanceof Chorus.Tweet) return h;
+        if (h instanceof Chorus.Tweet) {
+            return h;
+        }
 
         var reply = null, u = h.user;
 
@@ -52,10 +54,7 @@ provides: [Chorus.Wordpress]
         }
     }];
     
-    Chorus.Timeline.shorthands = shorthands.extend(Chorus.Timeline.shorthands);
-
-    Chorus.extend({
-        'WordpressTimeline': WordpressTimeline,
-        'WordpressStatus': WordpressStatus
-    });
+    Chorus.Timeline.shorthands = shorthands.concat(Chorus.Timeline.shorthands);
+    Chorus.WordpressTimeline = WordpressTimeline;
+    Chorus.WordpressStatus = WordpressStatus;
 }(Chorus));

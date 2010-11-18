@@ -9,13 +9,13 @@ authors:
 
 requires:
 - Subscriber
-- core/1.2.4: '*'
-- more/1.2.4: Request.JSONP, Date.Extras, Class.Binds
+- core/1.3: '*'
+- more/1.3: Request.JSONP, Date.Extras, Class.Binds
 
 provides: [Chorus]
 */
 
-var Chorus = $H();
+var Chorus = {};
 
 (function (Chorus){
     var Status = new Class({
@@ -44,7 +44,7 @@ var Chorus = $H();
             );
             
             if (options.extras) {
-                var extras = $splat(options.extras).map(function (fn){
+                var extras = Array.from(options.extras).map(function (fn){
                     return fn(element, body, this);
                 }, this);
                 
@@ -66,12 +66,16 @@ var Chorus = $H();
         'getTimestamp': function (){
             var timestamp = new Element('span');
             var getAge = function (){
-                return this.date.timeDiffInWords();
+                try {
+                    return this.date.timeDiffInWords();
+                } catch (err) {
+                    return "A While ago";
+                }
             }.bind(this);
 
             function update (){
-                timestamp.set('text', $try(getAge, $lambda("A While Ago")));
-            };
+                timestamp.set('text', Function.attempt(getAge, Function.from("A While Ago")));
+            }
 
             update();
             update.periodical(6000);
@@ -99,17 +103,15 @@ var Chorus = $H();
         }
     });
 
-    Status.extend({
-        'equal': function(a, b){
-            return a.toKey() === b.toKey();
-        },
+    Status.equal = function(a, b){
+        return a.toKey() === b.toKey();
+    };
 
-        'byDate': function(a, b){
-            return b.date.getTime() - a.date.getTime();
-        }
-    });
+    Status.byDate = function(a, b){
+        return b.date.getTime() - a.date.getTime();
+    };
 
-    Chorus.extend({'Status': Status});
+    Chorus.Status = Status;
         
     var Timeline = new Class({
         // Fetches statuses with a JSONP API call
@@ -133,7 +135,7 @@ var Chorus = $H();
             'count': 25,
             'updateOnStart': true,
             'updatePeriod': 90000
-            // onUpdate: $empty
+            // onUpdate: function () {}
         },
 
         'timer': null,
@@ -145,7 +147,7 @@ var Chorus = $H();
         },
 
         'stopUpdates': function () {
-            $clear(this.timer);
+            clearInterval(this.timer);
             return this;
         },
 
@@ -188,7 +190,7 @@ var Chorus = $H();
         return null;
     };
 
-    Chorus.extend({'Timeline': Timeline});
+    Chorus.Timeline = Timeline;
 
     var View = new Class({
         'Extends': Subscriber,
@@ -196,12 +198,14 @@ var Chorus = $H();
 
         'initialize': function (options) {
             this.setOptions(options);
-            $splat(options.feeds).each(this.subscribe.bind(this));
-            if(this.options.container) $(this.options.container).adopt(this);
+            Array.from(options.feeds).each(this.subscribe.bind(this));
+            if (this.options.container) {
+                $(this.options.container).adopt(this);
+            }
         },
 
         'statuses': [],
-        'htmlCache': $H(),
+        'htmlCache': {},
         
         'options': {
             'count': 10,
@@ -211,7 +215,7 @@ var Chorus = $H();
         },
 
         'update': function (statuses, source) {
-            this.statuses.extend(statuses);
+            this.statuses.append(statuses);
             this.distinct();
             this.statuses.sort(Status.byDate);
             this.fireEvent('update', [statuses, source, this]);
@@ -226,7 +230,9 @@ var Chorus = $H();
             }
             
             function addToSet(val){
-                if (!out.some(eq(val))) out.push(val);
+                if (!out.some(eq(val))) {
+                    out.push(val);
+                }
             }
 
             this.statuses.each(addToSet);
@@ -261,16 +267,14 @@ var Chorus = $H();
                 options = this.options.renderOptions,
                 key = status.toKey();
 
-            if (!htmlCache.has(key)) htmlCache.set(key, status.toElement(options));
+            if (!htmlCache[key]) htmlCache[key] = status.toElement(options);
 
-            return htmlCache.get(key);
+            return htmlCache[key];
         }
     });
 
-    Chorus.extend({
-        'View': View,
-        'view': function (){ // just a convenience
-            return new View({'feeds': $A(arguments)});
-        }
-    });
+    Chorus.View = View;
+    Chorus.view = function (){ // just a convenience
+        return new View({'feeds': $A(arguments)});
+    };
 }(Chorus));

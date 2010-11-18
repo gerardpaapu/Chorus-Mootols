@@ -1,6 +1,6 @@
 /*
 ---
-description: Adds twitter.com capabilites to Chorus 
+description: Adds friendfeed.com capabilites to Chorus 
 
 license: BSD-style
 
@@ -36,7 +36,9 @@ provides: [Chorus.FriendFeed]
     });
 
     FriendfeedStatus.from = function (h){
-        if (h instanceof Chorus.Status) return h;
+        if (h instanceof Chorus.Status) {
+            return h;
+        }
 
         return new FriendfeedStatus(
             h.id, h.from.id, null,
@@ -74,10 +76,7 @@ provides: [Chorus.FriendFeed]
         }
     }];
 
-    Chorus.Timeline.shorthands = shorthands.extend(Chorus.Timeline.shorthands);
-
-    Chorus.extend({
-        'FriendFeedTimeline': FriendFeedTimeline,
-        'FriendfeedStatus': FriendfeedStatus
-    });
+    Chorus.Timeline.shorthands = shorthands.concat(Chorus.Timeline.shorthands);
+    Chorus.FriendFeedTimeline = FriendFeedTimeline;
+    Chorus.FriendfeedStatus = FriendfeedStatus;
 }(Chorus));

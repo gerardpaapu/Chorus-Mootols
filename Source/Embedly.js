@@ -57,7 +57,7 @@ var Embedly = {
                         return new RegExp(p, "i");
                     });
                     embedly.services[item.name] = patterns;
-                    [].push.apply(embedly.patterns, patterns);
+                    embedly.patterns.append(patterns);
                 });      
 
                 embedly.onServicesLoaded();
