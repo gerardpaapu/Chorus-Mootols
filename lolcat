@@ -1,2 +1,0 @@
-#! /bin/bash
-cat Source/{Subscriber.js,Chorus.js,Chorus.Embedly.js,Chorus.Embedly.services.js,Chorus.Twitter.js,Chorus.Facebook.js,Chorus.Buzz.js} > chorus.out.js
