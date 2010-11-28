@@ -47,17 +47,15 @@ var Embedly = {
     // `patterns` and fire `onServicesLoaded` 
     loadServices: function () {
         var embedly = this;
-        initialized = true;
+        this.initialized = true;
 
         new Request.JSONP({
             url: "http://api.embed.ly/1/services/javascript",
             onComplete: function (json) {
                 json.each(function (item, index){
-                    var patterns = (item.regex).map(function (p) {
-                        return new RegExp(p, "i");
-                    });
+                    var patterns = (item.regex).map(RegExp);
                     embedly.services[item.name] = patterns;
-                    [].push.apply(embedly.patterns, patterns);
+                    embedly.patterns.append(patterns);
                 });      
 
                 embedly.onServicesLoaded();
@@ -138,10 +136,10 @@ var Embedly = {
     // http://api.embed.ly/docs/oembed#oembed-types
     fromJSON: function (json){
         var type = json.type;
-        return json.thumbnail_url ? Embedly.toThumbnail(json) 
-            :  type === 'photo'   ? Embedly.toPhoto(json)
+        return json.thumbnail_url ? this.toThumbnail(json) 
+            :  type === 'photo'   ? this.toPhoto(json)
             :  type === 'video' || 
-               type === 'rich'    ? Embedly.toHtml(json)
+               type === 'rich'    ? this.toHtml(json)
             :  false;
     },
 
@@ -171,6 +169,3 @@ var Embedly = {
         return el;
     }
 };
-
-var link = document.getElement(".media");
-Embedly.make(link).replaces(link);
