@@ -88,6 +88,26 @@ provides: [Chorus.Twitter]
             return str.replace(/(\s|^)(mailto\:|(news|(ht|f)tp(s?))\:\/\/\S+)/g,'$1<a href="$2">$2</a>')
                 .replace(/(\s|^)@(\w+)/g, '$1<a class="mention" href="http://twitter.com/$2">@$2</a>')
                 .replace(/(\s|^)#(\w+)/g, '$1<a class="hashTag" href="http://twitter.com/search?q=%23$2">#$2</a>');
+        },
+
+        'getByID': function (id, callback) {
+            var placeholder;
+
+            if (!callback) {
+                placeholder = new Element("div", {'class': "placeholder"});
+                callback = function (status) {
+                    status.toElement().replaces(placeholder);
+                };
+            }
+
+            new Request.JSONP({
+                url: "http://api.twitter.com/1/statuses/show/" + id + ".json",
+                onComplete: function (json) {
+                    callback(Tweet.from(json)); 
+                }
+            }).send();
+
+            return placeholder || null;
         }
     });
     
