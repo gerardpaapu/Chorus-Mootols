@@ -196,8 +196,11 @@ var Chorus = $H();
 
         'initialize': function (options) {
             this.setOptions(options);
+            this.htmlCache = new Hash();
             $splat(options.feeds).each(this.subscribe.bind(this));
-            if(this.options.container) $(this.options.container).adopt(this);
+            if (this.options.container) {
+                $(this.options.container).adopt(this);
+            }
         },
 
         'statuses': [],
@@ -226,7 +229,9 @@ var Chorus = $H();
             }
             
             function addToSet(val){
-                if (!out.some(eq(val))) out.push(val);
+                if (!out.some(eq(val))) {
+                    out.push(val);
+                }
             }
 
             this.statuses.each(addToSet);
@@ -261,7 +266,9 @@ var Chorus = $H();
                 options = this.options.renderOptions,
                 key = status.toKey();
 
-            if (!htmlCache.has(key)) htmlCache.set(key, status.toElement(options));
+            if (!htmlCache.has(key)) {
+                htmlCache.set(key, status.toElement(options));
+            }
 
             return htmlCache.get(key);
         }

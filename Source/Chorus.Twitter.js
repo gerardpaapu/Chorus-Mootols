@@ -41,7 +41,9 @@ provides: [Chorus.Twitter]
 
         'toElement': function (options){
             var element = this.parent(options);
-            if (this.reply) element.adopt(this.renderReply());
+            if (this.reply) {
+                element.adopt(this.renderReply());
+            }
             return element;
         }
     });
@@ -54,22 +56,24 @@ provides: [Chorus.Twitter]
          // It's a little convoluted because the Twitter Search API returns a
          // slightly different format
         'from': function (h) {
-            if (h instanceof Tweet) return h;
-            h = h['retweeted_status'] || h;
+            if (h instanceof Tweet) {
+                return h;
+            }
+            h = h.retweeted_status || h;
             h = $H(h);
             
             var reply = h.get('in_reply_to_status_id') ? {
                 'username': h.get('in_reply_to_screen_name'),
-                'userID': h.get('in_reply_to_user_id'),
-                'statusID': h.get('in_reply_to_status_id')
+                'userID': h.get('in_reply_to_user_id') + '',
+                'statusID': h.get('in_reply_to_status_id') + ''
             } : null ;
 
             var searchAPI = !h.has('user'); // is this data from the Search API?
 
             return new Tweet(
                 h.get('id_str'), 
-                searchAPI? h.get('from_user') : h.get('user')['screen_name'],
-                searchAPI? h.get('profile_image_url') : h.get('user')['profile_image_url'],
+                searchAPI? h.get('from_user') : h.get('user').screen_name,
+                searchAPI? h.get('profile_image_url') : h.get('user').profile_image_url,
                 h.get('created_at'), h.get('text'), reply
             );
         },
