@@ -42,6 +42,8 @@ var Embedly = {
     // has `loadServices` been called?
     initialized: false,
 
+    showThumbs: false,
+
     // Make the first request to the Embedly API to get the list of 
     // supported services, when they come back populate `services`,
     // `patterns` and fire `onServicesLoaded` 
@@ -140,7 +142,7 @@ var Embedly = {
     // http://api.embed.ly/docs/oembed#oembed-types
     fromJSON: function (json){
         var type = json.type;
-        return json.thumbnail_url ? this.toThumbnail(json) 
+        return json.thumbnail_url && this.showThumbs ? this.toThumbnail(json) 
             :  type === 'photo'   ? this.toPhoto(json)
             :  type === 'video' || 
                type === 'rich'    ? this.toHtml(json)
