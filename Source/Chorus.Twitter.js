@@ -171,6 +171,7 @@ provides: [Chorus.Twitter]
                 'listName': listName
             });
 
+            this.sendData = $merge(this.sendData || {}, {per_page: this.options.count});
             this.parent(options);
         }
     });
