@@ -116,6 +116,7 @@ provides: [Chorus.Twitter]
     var TwitterTimeline = new Class({
         'Extends': Chorus.Timeline,
         'queryUrl': "http://api.twitter.com/1/statuses/public_timeline.json",
+
         'update': function (n) {
             var latest = this.latest ? {'since_id': this.latest.id } : {};
             this.request.send({'data': $merge(this.sendData, latest) });
