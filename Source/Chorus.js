@@ -210,10 +210,12 @@ var Chorus = $H();
             'count': 10,
             'feeds': [],
             'container': false,
-            'renderOptions': {}
+            'renderOptions': {},
+            'filter': $lambda(true)
         },
 
         'update': function (statuses, source) {
+            statuses = statuses.filter(this.options.filter);
             this.statuses.extend(statuses);
             this.distinct();
             this.statuses.sort(Status.byDate);
