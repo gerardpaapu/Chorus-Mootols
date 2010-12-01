@@ -55,7 +55,7 @@ var Embedly = {
                 json.each(function (item, index){
                     var patterns = (item.regex).map(RegExp);
                     embedly.services[item.name] = patterns;
-                    embedly.patterns.append(patterns);
+                    embedly.patterns.extend(patterns);
                 });      
 
                 embedly.onServicesLoaded();
@@ -85,6 +85,10 @@ var Embedly = {
     make: function (link){
         var url = link instanceof Element ? link.get('href') : link,
             placeholder = new Element('div', {'class': "embed embedly_placeholder"}); 
+
+        if (this !== Embedly) {
+            return Embedly.make(link);
+        }
 
         if (!this.initialized) {
             this.loadServices();
