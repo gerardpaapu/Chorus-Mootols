@@ -44,6 +44,8 @@ var Embedly = {
 
     showThumbs: false,
 
+    data: {},
+
     // Make the first request to the Embedly API to get the list of 
     // supported services, when they come back populate `services`,
     // `patterns` and fire `onServicesLoaded` 
@@ -110,9 +112,11 @@ var Embedly = {
     // the call to the embedly api and replaces the placeholder
     // with the final embedded media
     __make__: function (url, placeholder) {
+        var data = $merge({url: url}, this.data);
+                
         new Request.JSONP({
             'url': "http://api.embed.ly/v1/api/oembed",
-            'data': { 'url': url },
+            'data': data,
             'onComplete': function (json){
                 var el = Embedly.fromJSON(json);
                 if (el) {
