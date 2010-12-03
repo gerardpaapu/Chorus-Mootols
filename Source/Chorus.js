@@ -64,12 +64,13 @@ var Chorus = $H();
         },
 
         'getTimestamp': function (){
-            var timestamp = new Element('span');
-            var getAge = function (){
+            var timestamp, getAge, update;
+            timestamp = new Element('span');
+            getAge = function (){
                 return this.date.timeDiffInWords();
             }.bind(this);
 
-            function update (){
+            update = function (){
                 timestamp.set('text', $try(getAge, $lambda("A While Ago")));
             };
 
@@ -125,8 +126,13 @@ var Chorus = $H();
                 'onComplete': this.prePublish.bind(this)
             });
 
-            if (this.options.updateOnStart) this.update();
-            if (this.options.updatePeriod) this.startUpdates();
+            if (this.options.updateOnStart) {
+                this.update();
+            }
+
+            if (this.options.updatePeriod) {
+                this.startUpdates();
+            }
         },
         
         'options': {
@@ -176,13 +182,17 @@ var Chorus = $H();
     Timeline.from = function (t){
         var i, l, shorthand, match;
 
-        if (t instanceof Timeline) return t;
+        if (t instanceof Timeline) {
+            return t;
+        }
 
         for (i=0, l=Timeline.shorthands.length; i<l; i++) {
             shorthand = Timeline.shorthands[i];
             match = shorthand.pattern.exec(t);
 
-            if (match) return shorthand.fun.apply(null, match); 
+            if (match) {
+                return shorthand.fun.apply(null, match); 
+            }
         }
 
         return null;
