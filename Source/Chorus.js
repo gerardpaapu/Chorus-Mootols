@@ -19,7 +19,7 @@ var Chorus = $H();
 
 (function (Chorus){
     var Status = new Class({
-        'initialize': function init (id, username, avatar, date, text) {
+        'initialize': function (id, username, avatar, date, text) {
             this.id = id;
             this.username = username;
             this.avatar = avatar;
