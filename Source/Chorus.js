@@ -97,7 +97,9 @@ var Chorus = $H();
 
         'renderBody': function (){
             return new Element("p", {'class': "statusBody", 'html': this.text});
-        }
+        },
+
+        'raw': null
     });
 
     Status.extend({

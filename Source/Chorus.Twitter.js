@@ -17,10 +17,11 @@ provides: [Chorus.Twitter]
         'Extends': Chorus.Status,
 
         // represents a status update on twitter.
-        'initialize': function init (id, username, avatar, date, text, reply) {
+        'initialize': function (id, username, avatar, date, text, reply, raw) {
             this.parent(id, username, avatar, Tweet.datefix(date), text);
             this.reply = reply;
             this.text = Tweet.linkify(this.text);
+            this.raw = raw || null;
         },
 
         'getUrl': function (){
@@ -74,7 +75,7 @@ provides: [Chorus.Twitter]
                 h.get('id_str'), 
                 searchAPI? h.get('from_user') : h.get('user').screen_name,
                 searchAPI? h.get('profile_image_url') : h.get('user').profile_image_url,
-                h.get('created_at'), h.get('text'), reply
+                h.get('created_at'), h.get('text'), reply, h
             );
         },
 
