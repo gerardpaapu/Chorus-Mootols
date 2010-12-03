@@ -47,8 +47,12 @@ var Chorus = $H();
                 var extras = $splat(options.extras).map(function (fn){
                     return fn(element, body, this);
                 }, this);
-                
-                new Element('div', {'class': "extras"}).adopt(extras).inject(element, 'bottom');
+
+                extras = extras.filter($arguments(0));
+
+                if (extras.length) { 
+                    new Element('div', {'class': "extras"}).adopt(extras).inject(element, 'bottom');
+                }
             }
 
             return element;
