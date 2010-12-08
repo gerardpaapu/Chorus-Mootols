@@ -60,22 +60,22 @@ provides: [Chorus.Twitter]
             if (h instanceof Tweet) {
                 return h;
             }
+
             h = h.retweeted_status || h;
-            h = $H(h);
             
-            var reply = h.get('in_reply_to_status_id') ? {
-                'username': h.get('in_reply_to_screen_name'),
-                'userID': h.get('in_reply_to_user_id') + '',
-                'statusID': h.get('in_reply_to_status_id') + ''
+            var reply = h.in_reply_to_status_id ? {
+                'username': h.in_reply_to_screen_name,
+                'userID': h.in_reply_to_user_id_str,
+                'statusID': h.in_reply_to_status_id_str
             } : null ;
 
-            var searchAPI = !h.has('user'); // is this data from the Search API?
+            var searchAPI = !h.user; // is this data from the Search API?
 
             return new Tweet(
-                h.get('id_str'), 
-                searchAPI? h.get('from_user') : h.get('user').screen_name,
-                searchAPI? h.get('profile_image_url') : h.get('user').profile_image_url,
-                h.get('created_at'), h.get('text'), reply, h
+                h.id_str, 
+                (searchAPI ? h.from_user : h.user.screen_name),
+                (searchAPI ? h.profile_image_url : h.user.profile_image_url),
+                h.created_at, h.text, reply, h
             );
         },
 
