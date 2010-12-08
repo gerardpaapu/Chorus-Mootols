@@ -59,10 +59,10 @@ provides: [Chorus.Twitter]
 
         h = h.retweeted_status || h;
         
-        var reply = h.in_reply_to_status_id ? {
+        var reply = h.in_reply_to_status_id_str ? {
             'username': h.in_reply_to_screen_name,
-            'userID': h.in_reply_to_user_id,
-            'statusID': h.in_reply_to_status_id
+            'userID': h.in_reply_to_user_id_str,
+            'statusID': h.in_reply_to_status_id_str
         } : null ;
 
         var searchAPI = !h.user; // is this data from the Search API?
