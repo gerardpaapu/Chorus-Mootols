@@ -57,7 +57,9 @@ var Embedly = {
             url: "http://api.embed.ly/1/services/javascript",
             onComplete: function (json) {
                 json.each(function (item, index){
-                    var patterns = (item.regex).map(RegExp);
+                    var patterns = (item.regex).map(function (str) {
+                        return new RegExp(str);
+                    });
                     embedly.services[item.name] = patterns;
                     embedly.patterns.extend(patterns);
                 });      
